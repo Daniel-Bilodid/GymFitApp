@@ -11,7 +11,9 @@
         <a href="/">Home</a>
       </li>
       <li>
-        <a href="/profile">Profile</a>
+        <a href="/profile" @click.prevent="$emit('open-login')"
+          >Login/Register</a
+        >
       </li>
     </ul>
   </nav>
