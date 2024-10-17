@@ -2,17 +2,21 @@
   <div id="app">
     <Navbar @open-login="openLoginModal" />
     <Login v-if="isLoginModalOpen" @close="closeLoginModal" />
+    <Exercises />
   </div>
 </template>
 
 <script>
 import Navbar from "./components/nav/Navbar.vue";
 import Login from "./components/login/Login.vue";
+import Exercises from "./components/exercises/Exercises.vue";
+
 export default {
   name: "App",
   components: {
     Navbar,
     Login,
+    Exercises,
   },
   data() {
     return {
