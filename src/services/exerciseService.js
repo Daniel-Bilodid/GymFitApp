@@ -21,3 +21,23 @@ export const getExercisesByBodyPart = async (bodyPart) => {
     return [];
   }
 };
+
+export const getAllExercises = async () => {
+  try {
+    const response = await instance.get("/exercises?offset=0&limit=100");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching exercises:", error);
+    return [];
+  }
+};
+
+export const getAllBodypartList = async () => {
+  try {
+    const response = await instance.get("/exercises/bodyPartList");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching exercises:", error);
+    return [];
+  }
+};
