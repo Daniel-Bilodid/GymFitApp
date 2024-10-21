@@ -12,9 +12,15 @@ const instance = axios.create({
   },
 });
 
-export const getExercisesByBodyPart = async (bodyPart) => {
+export const getExercisesByBodyPart = async (
+  bodyPart,
+  offset = 0,
+  limit = 20
+) => {
   try {
-    const response = await instance.get(`/exercises/bodyPart/${bodyPart}`);
+    const response = await instance.get(
+      `/exercises/bodyPart/${bodyPart}?offset=${offset}&limit=${limit}`
+    );
     return response.data;
   } catch (error) {
     console.error("Error fetching exercises:", error);
@@ -22,9 +28,11 @@ export const getExercisesByBodyPart = async (bodyPart) => {
   }
 };
 
-export const getAllExercises = async () => {
+export const getAllExercises = async (offset = 0, limit = 20) => {
   try {
-    const response = await instance.get("/exercises?offset=0&limit=100");
+    const response = await instance.get(
+      `/exercises?offset=${offset}&limit=${limit}`
+    );
     return response.data;
   } catch (error) {
     console.error("Error fetching exercises:", error);
@@ -35,6 +43,16 @@ export const getAllExercises = async () => {
 export const getAllBodypartList = async () => {
   try {
     const response = await instance.get("/exercises/bodyPartList");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching exercises:", error);
+    return [];
+  }
+};
+
+export const getExerciseById = async (id) => {
+  try {
+    const response = await instance.get(`/exercises/exercise/${id}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching exercises:", error);

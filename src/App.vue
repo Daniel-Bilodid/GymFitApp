@@ -2,7 +2,7 @@
   <div id="app">
     <Navbar @open-login="openLoginModal" />
     <Login v-if="isLoginModalOpen" @close="closeLoginModal" />
-    <Exercises />
+    <router-view />
   </div>
 </template>
 
