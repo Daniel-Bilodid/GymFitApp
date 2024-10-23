@@ -1,11 +1,19 @@
 <template>
   <div>
     <exercisesParts @update:bodyPart="onBodyPart" />
-    <h1>Упражнения для {{ bodyPart }}</h1>
+    <h1>Exercise for {{ bodyPart }}</h1>
     <ul class="exercises__list">
-      <li v-for="exercise in exercises" :key="exercise.id">
-        <router-link :to="`/exercise/${exercise.id}`">
+      <li
+        class="exercises__list-card"
+        v-for="exercise in exercises"
+        :key="exercise.id"
+      >
+        <router-link
+          class="exercises__list-link"
+          :to="`/exercise/${exercise.id}`"
+        >
           <img :src="exercise.gifUrl" :alt="exercise.name" />
+          <p class="exercises__list-bodypart">{{ exercise.bodyPart }}</p>
           <p class="exercises__list-name">{{ exercise.name }}</p>
           <!-- <p class="exercises__instructions">{{ exercise.instructions }}</p> -->
         </router-link>
@@ -28,6 +36,7 @@ import {
   getAllExercises,
 } from "../../services/exerciseService";
 import ExercisesParts from "../exercisesParts/ExercisesParts.vue";
+import "./exercise.scss";
 
 export default {
   components: {
@@ -81,27 +90,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-img {
-  width: 350px;
-  height: auto;
-}
-
-.exercises__list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-
-  &-name {
-    width: 70px;
-  }
-}
-
-.pagination {
-  margin-top: 20px;
-  button {
-    margin: 0 10px;
-  }
-}
-</style>
