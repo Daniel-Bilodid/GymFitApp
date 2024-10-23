@@ -19,7 +19,19 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Функция для регистрации
+const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (user) => {
+        unsubscribe();
+        resolve(user);
+      },
+      reject
+    );
+  });
+};
+
 const register = async (email, password) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(
@@ -33,7 +45,6 @@ const register = async (email, password) => {
   }
 };
 
-// Функция для входа
 const login = async (email, password) => {
   try {
     const userCredential = await signInWithEmailAndPassword(
@@ -47,7 +58,6 @@ const login = async (email, password) => {
   }
 };
 
-// Функция для входа с помощью Google
 const loginWithGoogle = async () => {
   const provider = new GoogleAuthProvider();
   try {
@@ -58,4 +68,4 @@ const loginWithGoogle = async () => {
   }
 };
 
-export { auth, register, login, loginWithGoogle };
+export { auth, register, login, loginWithGoogle, getCurrentUser };

@@ -1,0 +1,14 @@
+.info {
+  display: flex;
+  justify-content: center;
+
+  &__wrapper {
+    display: flex;
+    gap: 50px;
+  }
+  &__text {
+    &-instructions {
+      width: 500px;
+    }
+  }
+}

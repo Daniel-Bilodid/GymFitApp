@@ -12,11 +12,14 @@
 <script>
 import "./login.scss";
 import { ref } from "vue";
-import { register, login, loginWithGoogle } from "../../firebase"; // Путь к firebase.js
+import { register, login, loginWithGoogle } from "../../firebase";
 
 export default {
   name: "Login",
-  setup() {
+  props: {
+    currentUser: Object,
+  },
+  setup(props) {
     const email = ref("");
     const password = ref("");
 
