@@ -1,0 +1,39 @@
+.part {
+  &__list {
+    position: relative;
+    display: flex;
+    gap: 40px;
+    &-img {
+      width: 40px;
+      height: 40px;
+    }
+    &-item {
+      width: 270px;
+      height: 282px;
+      cursor: pointer;
+      z-index: -1;
+    }
+  }
+}
+.slider-container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.swiper {
+  height: 300px;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: black;
+  z-index: 10;
+}
+
+.part__list-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: calc(100% / 4 - 50px);
+}

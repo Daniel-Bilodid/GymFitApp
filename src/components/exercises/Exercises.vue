@@ -1,5 +1,6 @@
 <template>
   <div>
+    <exerciseSearch />
     <exercisesParts @update:bodyPart="onBodyPart" />
     <h1>Exercise for {{ bodyPart }}</h1>
     <ul class="exercises__list">
@@ -36,11 +37,13 @@ import {
   getAllExercises,
 } from "../../services/exerciseService";
 import ExercisesParts from "../exercisesParts/ExercisesParts.vue";
+import ExerciseSearch from "../exersiceSearch/ExerciseSearch.vue";
 import "./exercise.scss";
 
 export default {
   components: {
     ExercisesParts,
+    ExerciseSearch,
   },
   setup() {
     const bodyPart = ref("chest");
