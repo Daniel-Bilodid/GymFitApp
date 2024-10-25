@@ -18,7 +18,7 @@ img {
     line-height: 1.5;
     letter-spacing: 0.00938em;
 
-    color: #fff;
+    color: black;
     font-weight: 700;
     margin-top: 11px;
     padding-bottom: 10px;
@@ -32,17 +32,21 @@ img {
 
   &-bodypart {
     display: flex;
-
+    justify-content: center;
+    align-items: center;
     border: none;
     background-color: rgb(250, 165, 166);
     width: 64px;
     height: 36.5px;
     padding: 6px 8px;
+    font-size: 14px;
+    border-radius: 20px;
+    text-transform: capitalize;
   }
   &-card {
     width: 400px;
     height: 445px;
-    background: black;
+    background: #fff;
     border-top: 4px solid #ff2625;
     border-bottom-left-radius: 20px;
     text-decoration: none;

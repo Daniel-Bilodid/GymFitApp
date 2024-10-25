@@ -6,16 +6,34 @@
       </div>
 
       <div class="info__text">
-        <div class="info__text-name">Exercise name: {{ exercise.name }}</div>
-        <div class="info__text-bodyPart">BodyPart: {{ exercise.bodyPart }}</div>
-        <div class="info__text-equipment">
-          Equipment: {{ exercise.equipment }}
+        <div class="info__text-name">{{ exercise.name }}</div>
+        <div
+          class="info__text-instructions"
+          v-for="(item, index) in exercise.instructions"
+          :key="index"
+        >
+          {{ `${index + 1}.  ${item}` }}
         </div>
 
-        <div class="info__text-targer">Target: {{ exercise.target }}</div>
-
-        <div class="info__text-instructions">
-          Instructions: {{ exercise.instructions }}
+        <div class="info__groups">
+          <div class="info__text-group">
+            <div class="info__text-icon">
+              <i class="fas fa-user"></i>
+            </div>
+            <span>{{ exercise.bodyPart }}</span>
+          </div>
+          <div class="info__text-group">
+            <div class="info__text-icon">
+              <i class="fas fa-dumbbell"></i>
+            </div>
+            <span>{{ exercise.equipment }}</span>
+          </div>
+          <div class="info__text-group">
+            <div class="info__text-icon">
+              <i class="fas fa-bullseye"></i>
+            </div>
+            <span>{{ exercise.target }}</span>
+          </div>
         </div>
       </div>
     </div>

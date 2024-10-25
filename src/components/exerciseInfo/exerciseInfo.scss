@@ -6,9 +6,49 @@
     display: flex;
     gap: 50px;
   }
+
   &__text {
+    margin-top: 70px;
+
     &-instructions {
       width: 500px;
+      margin-bottom: 15px;
     }
+
+    &-icon {
+      width: 100px;
+      height: 100px;
+      background-color: rgb(254, 242, 219);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 10px;
+    }
+
+    &-group {
+      display: flex;
+      align-items: center;
+    }
+
+    &-name {
+      margin: 0;
+      font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+      font-weight: 400;
+      font-size: 3rem;
+      line-height: 1.167;
+      letter-spacing: 0em;
+      margin-bottom: 20px;
+      width: 500px;
+    }
+  }
+
+  &__gif img {
+    width: 729px;
+    height: 742px;
+  }
+
+  &__groups {
+    display: flex;
   }
 }

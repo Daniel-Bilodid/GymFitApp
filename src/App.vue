@@ -12,7 +12,7 @@
 
       <p v-else>Please log in</p>
     </div>
-    <ExerciseHero />
+
     <router-view />
   </div>
 </template>
@@ -22,7 +22,7 @@ import { ref, onMounted } from "vue";
 import Navbar from "./components/nav/Navbar.vue";
 import Login from "./components/login/Login.vue";
 import Exercises from "./components/exercises/Exercises.vue";
-import ExerciseHero from "./components/exersiceHero/ExerciseHero.vue";
+
 import ExerciseSearch from "./components/exersiceSearch/ExerciseSearch.vue";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
@@ -34,7 +34,7 @@ export default {
     Navbar,
     Login,
     Exercises,
-    ExerciseHero,
+
     ExerciseSearch,
   },
   setup() {
