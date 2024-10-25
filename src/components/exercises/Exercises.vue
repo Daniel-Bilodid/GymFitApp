@@ -14,8 +14,16 @@
           :to="`/exercise/${exercise.id}`"
         >
           <img :src="exercise.gifUrl" :alt="exercise.name" />
-          <p class="exercises__list-bodypart">{{ exercise.bodyPart }}</p>
-          <p class="exercises__list-name">{{ exercise.name }}</p>
+          <button class="exercises__list-bodypart">
+            {{ exercise.bodyPart }}
+          </button>
+          <p class="exercises__list-name">
+            {{
+              exercise.name.length > 25
+                ? exercise.name.slice(0, 32) + "..."
+                : exercise.name
+            }}
+          </p>
           <!-- <p class="exercises__instructions">{{ exercise.instructions }}</p> -->
         </router-link>
       </li>
