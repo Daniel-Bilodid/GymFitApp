@@ -36,7 +36,9 @@
           </div>
         </div>
       </div>
+      <ExerciseVideos />
     </div>
+
     <div v-else>
       <p>Loading...</p>
     </div>
@@ -47,9 +49,14 @@
 import { ref, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
 import { getExerciseById } from "../../services/exerciseService";
+import ExerciseVideos from "../exerciseVideos/ExerciseVideos.vue";
+
 import "./exerciseInfo.scss";
 export default {
   name: "ExerciseInfo",
+  components: {
+    ExerciseVideos,
+  },
   setup() {
     const route = useRoute();
     const exerciseId = route.params.id;
