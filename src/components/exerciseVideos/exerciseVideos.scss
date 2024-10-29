@@ -1,0 +1,9 @@
+.video {
+  width: 100%;
+  &__list {
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

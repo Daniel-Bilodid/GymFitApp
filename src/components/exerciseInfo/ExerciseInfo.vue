@@ -36,12 +36,12 @@
           </div>
         </div>
       </div>
-      <ExerciseVideos />
     </div>
 
     <div v-else>
       <p>Loading...</p>
     </div>
+    <ExerciseVideos :exercise="exercise" />
   </div>
 </template>
 
