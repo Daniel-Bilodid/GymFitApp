@@ -1,13 +1,13 @@
 <template>
-  <div>
+  <div class="video">
     <span v-if="exercise">{{ exercise.bodyPart }}</span>
     <span v-else>Loading...</span>
 
     exercise videos
-    {{ videos[0] ? videos[0].id.videoId : "" }}
+    <!-- {{ videos[0] ? videos[0].id.videoId : "" }}
 
     {{ videos[0] ? videos[0].snippet.thumbnails.default.url : "" }}
-    {{ videos[0] }}
+    {{ videos[0] }} -->
 
     <ul class="video__list">
       <li v-for="(video, index) in videos" :key="index">
@@ -16,7 +16,15 @@
           alt=""
         />
 
-        <p>{{ videos[index] ? videos[index].snippet.title : "" }}</p>
+        <p>
+          {{
+            videos[index]
+              ? videos[index].snippet.title.length > 25
+                ? videos[index].snippet.title.slice(0, 37) + "..."
+                : videos[index].snippet.title.length
+              : ""
+          }}
+        </p>
         <p>{{ videos[index] ? videos[index].snippet.channelTitle : "" }}</p>
       </li>
     </ul>

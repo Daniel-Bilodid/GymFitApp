@@ -1,9 +1,12 @@
 .video {
   width: 100%;
   &__list {
-    width: 80%;
+    margin: 0 auto;
+    padding: 0;
+    width: 72%;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    gap: 15px;
   }
 }
