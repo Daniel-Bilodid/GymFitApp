@@ -1,4 +1,3 @@
-// src/services/exerciseService.js
 import axios from "axios";
 
 const API_URL = "https://exercisedb.p.rapidapi.com";
@@ -12,13 +11,11 @@ const instance = axios.create({
   },
 });
 
-// Проверка и сохранение в localStorage
 const cacheData = (key, data) => {
   localStorage.setItem(key, JSON.stringify({ data, timestamp: Date.now() }));
 };
 
-// Извлечение данных из кеша, если они не устарели
-const getCachedData = (key, maxAge = 60 * 60 * 1000) => {
+const getCachedData = (key, maxAge = 3 * 24 * 60 * 60 * 1000) => {
   const cached = JSON.parse(localStorage.getItem(key));
   if (cached && Date.now() - cached.timestamp < maxAge) {
     return cached.data;
@@ -110,6 +107,25 @@ export const getExerciseById = async (id) => {
     return response.data;
   } catch (error) {
     console.error("Error fetching exercise by ID:", error);
+    return [];
+  }
+};
+
+export const getEquipment = async (type) => {
+  const cacheKey = `equipment:${type}`;
+  const cachedData = getCachedData(cacheKey);
+
+  if (cachedData) {
+    console.log(`Getting equipment type "${type}" from cache.`);
+    return cachedData;
+  }
+  console.log(`Fetching equipment type "${type}" from API.`);
+  try {
+    const response = await instance.get(`/exercises/equipment/${type}`);
+    cacheData(cacheKey, response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching equipment type:", error);
     return [];
   }
 };

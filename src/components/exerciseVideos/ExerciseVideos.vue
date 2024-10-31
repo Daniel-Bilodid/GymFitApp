@@ -1,31 +1,43 @@
 <template>
   <div class="video">
-    <span v-if="exercise">{{ exercise.bodyPart }}</span>
+    <div v-if="exercise" class="video__title">
+      <span>Similar Target Muscle</span>
+      exercise video
+    </div>
     <span v-else>Loading...</span>
 
-    exercise videos
-    <!-- {{ videos[0] ? videos[0].id.videoId : "" }}
-
-    {{ videos[0] ? videos[0].snippet.thumbnails.default.url : "" }}
-    {{ videos[0] }} -->
-
     <ul class="video__list">
-      <li v-for="(video, index) in videos" :key="index">
-        <img
-          :src="videos[index] ? videos[index].snippet.thumbnails.high.url : ''"
-          alt=""
-        />
+      <li
+        class="video__list-item"
+        v-for="(video, index) in videos"
+        :key="index"
+      >
+        <a
+          className="exercise-video"
+          :href="
+            `https://www.youtube.com/watch?v=${videos[index].id.videoId}`
+              ? `https://www.youtube.com/watch?v=${videos[index].id.videoId}`
+              : `https://www.youtube.com/shorts/${videos[index].id.videoId}`
+          "
+        >
+          <img
+            :src="
+              videos[index] ? videos[index].snippet.thumbnails.high.url : ''
+            "
+            alt=""
+          />
 
-        <p>
-          {{
-            videos[index]
-              ? videos[index].snippet.title.length > 25
-                ? videos[index].snippet.title.slice(0, 37) + "..."
-                : videos[index].snippet.title.length
-              : ""
-          }}
-        </p>
-        <p>{{ videos[index] ? videos[index].snippet.channelTitle : "" }}</p>
+          <p>
+            {{
+              videos[index]
+                ? videos[index].snippet.title.length > 25
+                  ? videos[index].snippet.title.slice(0, 37) + "..."
+                  : videos[index].snippet.title.length
+                : ""
+            }}
+          </p>
+          <p>{{ videos[index] ? videos[index].snippet.channelTitle : "" }}</p>
+        </a>
       </li>
     </ul>
   </div>

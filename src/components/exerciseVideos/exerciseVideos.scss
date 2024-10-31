@@ -8,5 +8,16 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 15px;
+
+    &-item {
+      list-style: none;
+    }
+  }
+
+  &__title {
+    display: flex;
+    justify-content: center;
+    font-size: 40px;
+    font-weight: 700;
   }
 }

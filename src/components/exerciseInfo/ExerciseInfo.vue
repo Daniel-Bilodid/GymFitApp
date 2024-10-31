@@ -42,6 +42,7 @@
       <p>Loading...</p>
     </div>
     <ExerciseVideos :exercise="exercise" />
+    <ExerciseTargetMuscle :exercise="exercise" />
   </div>
 </template>
 
@@ -50,12 +51,14 @@ import { ref, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
 import { getExerciseById } from "../../services/exerciseService";
 import ExerciseVideos from "../exerciseVideos/ExerciseVideos.vue";
-
+import ExerciseTargetMuscle from "../exerciseTargetMuscle/ExerciseTargetMuscle.vue";
 import "./exerciseInfo.scss";
+
 export default {
   name: "ExerciseInfo",
   components: {
     ExerciseVideos,
+    ExerciseTargetMuscle,
   },
   setup() {
     const route = useRoute();
