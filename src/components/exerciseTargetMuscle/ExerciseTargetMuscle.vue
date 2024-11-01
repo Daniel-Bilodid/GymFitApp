@@ -1,10 +1,9 @@
 <template>
   <div class="target">
-    <div v-if="exercise" class="target__title">
+    <div class="target__title">
       <span>Similar Equipment</span>
-      {{ exercise.equipment }}
+      {{ exercise ? exercise.equipment : "" }}
     </div>
-    <span v-else>Loading...</span>
 
     <ul class="target__list">
       <li
@@ -12,17 +11,19 @@
         :key="index"
         class="target__list-item"
       >
-        <img :src="item[index].gifUrl" alt="img" />
-        {{ item }}
+        <router-link :to="`/exercise/${equipmentData[index].id}`">
+          <img :src="item.gifUrl" alt="img" />
+          <div class="title__name">{{ item.name }}</div>
+        </router-link>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { getEquipment } from "../../services/exerciseService";
-
+import "./exerciseTargetMuscle.scss";
 export default {
   name: "ExerciseTargetMuscle",
 
@@ -34,22 +35,30 @@ export default {
   },
 
   setup(props) {
-    const equipmentType = ref(props.exercise?.equipment || null);
     const equipmentData = ref([]);
 
-    const fetchEquipment = async () => {
-      if (equipmentType.value) {
+    const fetchEquipment = async (equipmentType) => {
+      if (equipmentType) {
         try {
-          equipmentData.value = await getEquipment(equipmentType.value);
+          equipmentData.value = await getEquipment(equipmentType);
+          console.log(equipmentData);
         } catch (error) {
           console.error("Error fetching equipment:", error);
         }
-      } else {
-        console.warn("Equipment type is not defined.");
       }
     };
 
-    onMounted(fetchEquipment);
+    watch(
+      () => props.exercise,
+      (newExercise) => {
+        if (newExercise && newExercise.equipment) {
+          fetchEquipment(newExercise.equipment);
+        } else {
+          console.warn("Equipment type is not defined.");
+        }
+      },
+      { immediate: true }
+    );
 
     return {
       equipmentData,
