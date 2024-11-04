@@ -2,7 +2,12 @@
   <div class="info">
     <div class="info__wrapper" v-if="exercise">
       <div class="info__gif">
-        <img :src="exercise.gifUrl" :alt="exercise.name" />
+        <img
+          v-if="exercise.gifUrl"
+          :src="exercise.gifUrl"
+          :alt="exercise.name"
+        />
+        <p v-else>No GIF available for this exercise.</p>
       </div>
 
       <div class="info__text">
@@ -70,7 +75,7 @@ export default {
     const fetchExercise = async (exerciseId) => {
       try {
         exercise.value = await getExerciseById(exerciseId);
-        console.log(exercise.value);
+        console.log("Fetched exercise:", exercise.value);
       } catch (error) {
         console.error("Error fetching exercise:", error);
       }

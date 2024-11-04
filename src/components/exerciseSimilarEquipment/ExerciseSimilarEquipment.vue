@@ -1,6 +1,6 @@
 <template>
   <div class="target">
-    {{ target }}
+    {{ targetData }}
   </div>
 </template>
 
@@ -30,18 +30,18 @@ export default {
           targetData.value = await getTarget(targetType);
           console.log(targetData);
         } catch (error) {
-          console.error("Error fetching equipment:", error);
+          console.error("Error fetching target data:", error);
         }
       }
     };
 
     watch(
-      () => props.target,
-      (newTarget) => {
-        if (newTarget && newTarget.target) {
-          fetchTarget(newTarget.target);
+      () => props.exercise,
+      (newExercise) => {
+        if (newExercise && newExercise.target) {
+          fetchTarget(newExercise.target);
         } else {
-          console.warn("Equipment type is not defined.");
+          console.warn("Target type is not defined.");
         }
       },
       { immediate: true }
@@ -50,7 +50,7 @@ export default {
     watch(
       () => route.params.id,
       async (newId) => {
-        if (props.target && props.exercise.target) {
+        if (props.exercise && props.exercise.target) {
           await fetchTarget(props.exercise.target);
         }
       }

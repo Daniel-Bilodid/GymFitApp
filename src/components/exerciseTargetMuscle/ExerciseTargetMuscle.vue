@@ -12,7 +12,7 @@
         class="target__list-item"
       >
         <router-link :to="`/exercise/${item.id}`">
-          <img :src="item.gifUrl" alt="img" />
+          <img v-if="item.gifUrl" :src="item.gifUrl" alt="img" />
           <div class="title__name">{{ item.name }}</div>
         </router-link>
       </li>
@@ -44,7 +44,7 @@ export default {
       if (equipmentType) {
         try {
           equipmentData.value = await getEquipment(equipmentType);
-          console.log(equipmentData);
+          console.log("Fetched equipment data:", equipmentData.value);
         } catch (error) {
           console.error("Error fetching equipment:", error);
         }
@@ -63,15 +63,6 @@ export default {
       { immediate: true }
     );
 
-    watch(
-      () => route.params.id,
-      async (newId) => {
-        if (props.exercise && props.exercise.equipment) {
-          await fetchEquipment(props.exercise.equipment);
-        }
-      }
-    );
-
     return {
       equipmentData,
       exercise: props.exercise,
@@ -79,3 +70,5 @@ export default {
   },
 };
 </script>
+
+<style lang="scss"></style>

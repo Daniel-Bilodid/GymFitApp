@@ -38,9 +38,13 @@ export const getExercisesByBodyPart = async (
 
   console.log(`Fetching exercises for body part "${bodyPart}" from API.`);
   try {
-    const response = await instance.get(
-      `/exercises/bodyPart/${bodyPart}?offset=${offset}&limit=${limit}`
-    );
+    const response = await instance.get(`/exercises/bodyPart/${bodyPart}`, {
+      params: {
+        offset,
+        limit,
+        _: Date.now(),
+      },
+    });
     cacheData(cacheKey, response.data);
     return response.data;
   } catch (error) {
@@ -60,9 +64,13 @@ export const getAllExercises = async (offset = 0, limit = 20) => {
 
   console.log(`Fetching all exercises from API.`);
   try {
-    const response = await instance.get(
-      `/exercises?offset=${offset}&limit=${limit}`
-    );
+    const response = await instance.get(`/exercises`, {
+      params: {
+        offset,
+        limit,
+        _: Date.now(),
+      },
+    });
     cacheData(cacheKey, response.data);
     return response.data;
   } catch (error) {
@@ -82,7 +90,11 @@ export const getAllBodypartList = async () => {
 
   console.log(`Fetching body part list from API.`);
   try {
-    const response = await instance.get("/exercises/bodyPartList");
+    const response = await instance.get("/exercises/bodyPartList", {
+      params: {
+        _: Date.now(),
+      },
+    });
     cacheData(cacheKey, response.data);
     return response.data;
   } catch (error) {
@@ -96,15 +108,29 @@ export const getExerciseById = async (id) => {
   const cachedData = getCachedData(cacheKey);
 
   if (cachedData) {
-    console.log(`Getting exercise with ID "${id}" from cache.`);
-    return cachedData;
+    console.log(`Getting exercise with ID "${id}" from cache.`, cachedData);
+
+    if (cachedData.gifUrl) {
+      return cachedData;
+    } else {
+      console.warn(`GIF URL not found for exercise ID "${id}".`);
+    }
   }
 
   console.log(`Fetching exercise with ID "${id}" from API.`);
   try {
-    const response = await instance.get(`/exercises/exercise/${id}`);
-    cacheData(cacheKey, response.data);
-    return response.data;
+    const response = await instance.get(`/exercises/exercise/${id}`, {
+      params: {
+        _: Date.now(),
+      },
+    });
+    if (response.data && response.data.gifUrl) {
+      cacheData(cacheKey, response.data);
+      return response.data;
+    } else {
+      console.error("Invalid response:", response);
+      return [];
+    }
   } catch (error) {
     console.error("Error fetching exercise by ID:", error);
     return [];
@@ -119,9 +145,14 @@ export const getEquipment = async (type) => {
     console.log(`Getting equipment type "${type}" from cache.`);
     return cachedData;
   }
+
   console.log(`Fetching equipment type "${type}" from API.`);
   try {
-    const response = await instance.get(`/exercises/equipment/${type}`);
+    const response = await instance.get(`/exercises/equipment/${type}`, {
+      params: {
+        _: Date.now(),
+      },
+    });
     cacheData(cacheKey, response.data);
     return response.data;
   } catch (error) {
@@ -135,18 +166,21 @@ export const getTarget = async (target) => {
   const cachedData = getCachedData(cacheKey);
 
   if (cachedData) {
-    console.log(`Getting target muscle "${type}" from cache.`);
+    console.log(`Getting target muscle "${target}" from cache.`);
     return cachedData;
   }
 
-  console.log(`Fetching target muscle "${type}" from API.`);
-
+  console.log(`Fetching target muscle "${target}" from API.`);
   try {
-    const response = await instance.get(`/exercise/target/${target}`);
+    const response = await instance.get(`/exercises/target/${target}`, {
+      params: {
+        _: Date.now(),
+      },
+    });
     cacheData(cacheKey, response.data);
     return response.data;
   } catch (error) {
-    console.error("Error fetching equipment type:", error);
+    console.error("Error fetching target muscle:", error);
     return [];
   }
 };
