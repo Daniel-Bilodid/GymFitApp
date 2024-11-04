@@ -7,11 +7,11 @@
 
     <ul class="target__list">
       <li
-        v-for="(item, index) in equipmentData"
+        v-for="(item, index) in equipmentData.slice(0, 9)"
         :key="index"
         class="target__list-item"
       >
-        <router-link :to="`/exercise/${equipmentData[index].id}`">
+        <router-link :to="`/exercise/${item.id}`">
           <img :src="item.gifUrl" alt="img" />
           <div class="title__name">{{ item.name }}</div>
         </router-link>
@@ -21,9 +21,11 @@
 </template>
 
 <script>
-import { ref, onMounted, watch } from "vue";
+import { ref, watch } from "vue";
+import { useRoute } from "vue-router";
 import { getEquipment } from "../../services/exerciseService";
 import "./exerciseTargetMuscle.scss";
+
 export default {
   name: "ExerciseTargetMuscle",
 
@@ -36,6 +38,7 @@ export default {
 
   setup(props) {
     const equipmentData = ref([]);
+    const route = useRoute();
 
     const fetchEquipment = async (equipmentType) => {
       if (equipmentType) {
@@ -58,6 +61,15 @@ export default {
         }
       },
       { immediate: true }
+    );
+
+    watch(
+      () => route.params.id,
+      async (newId) => {
+        if (props.exercise && props.exercise.equipment) {
+          await fetchEquipment(props.exercise.equipment);
+        }
+      }
     );
 
     return {

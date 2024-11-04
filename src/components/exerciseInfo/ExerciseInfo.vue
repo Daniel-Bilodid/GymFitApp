@@ -42,6 +42,7 @@
       <p>Loading...</p>
     </div>
     <ExerciseVideos :exercise="exercise" />
+    <ExerciseSimilarEquipment :exercise="exercise" />
     <ExerciseTargetMuscle :exercise="exercise" />
   </div>
 </template>
@@ -52,6 +53,7 @@ import { useRoute } from "vue-router";
 import { getExerciseById } from "../../services/exerciseService";
 import ExerciseVideos from "../exerciseVideos/ExerciseVideos.vue";
 import ExerciseTargetMuscle from "../exerciseTargetMuscle/ExerciseTargetMuscle.vue";
+import ExerciseSimilarEquipment from "../exerciseSimilarEquipment/ExerciseSimilarEquipment.vue";
 import "./exerciseInfo.scss";
 
 export default {
@@ -59,12 +61,13 @@ export default {
   components: {
     ExerciseVideos,
     ExerciseTargetMuscle,
+    ExerciseSimilarEquipment,
   },
   setup() {
     const route = useRoute();
-    const exerciseId = route.params.id;
     const exercise = ref(null);
-    const fetchExercise = async () => {
+
+    const fetchExercise = async (exerciseId) => {
       try {
         exercise.value = await getExerciseById(exerciseId);
         console.log(exercise.value);
@@ -73,7 +76,21 @@ export default {
       }
     };
 
-    onMounted(fetchExercise);
+    // Изначальная загрузка упражнения
+    onMounted(() => {
+      fetchExercise(route.params.id);
+    });
+
+    // Наблюдение за изменениями параметра id
+    watch(
+      () => route.params.id,
+      (newId) => {
+        if (newId) {
+          fetchExercise(newId);
+        }
+      }
+    );
+
     return {
       exercise,
     };

@@ -129,3 +129,24 @@ export const getEquipment = async (type) => {
     return [];
   }
 };
+
+export const getTarget = async (target) => {
+  const cacheKey = `target:${target}`;
+  const cachedData = getCachedData(cacheKey);
+
+  if (cachedData) {
+    console.log(`Getting target muscle "${type}" from cache.`);
+    return cachedData;
+  }
+
+  console.log(`Fetching target muscle "${type}" from API.`);
+
+  try {
+    const response = await instance.get(`/exercise/target/${target}`);
+    cacheData(cacheKey, response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching equipment type:", error);
+    return [];
+  }
+};
