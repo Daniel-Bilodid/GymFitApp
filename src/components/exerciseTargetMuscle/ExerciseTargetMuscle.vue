@@ -1,13 +1,19 @@
 <template>
   <div class="target">
     <div class="target__title">
-      <span>Similar Equipment</span>
-      {{ exercise ? exercise.equipment : "" }}
+      <span>Similar Target Muscle</span>
+      {{ targetData[0] ? targetData[0].bodyPart : "" }}
     </div>
 
-    <ul class="target__list">
-      <li
-        v-for="(item, index) in equipmentData.slice(0, 9)"
+    <swiper
+      class="target__list"
+      :navigation="true"
+      :pagination="true"
+      :slides-per-view="3"
+      :space-between="50"
+    >
+      <swiper-slide
+        v-for="(item, index) in targetData.slice(0, 9)"
         :key="index"
         class="target__list-item"
       >
@@ -15,20 +21,28 @@
           <img v-if="item.gifUrl" :src="item.gifUrl" alt="img" />
           <div class="title__name">{{ item.name }}</div>
         </router-link>
-      </li>
-    </ul>
+      </swiper-slide>
+    </swiper>
   </div>
 </template>
 
 <script>
 import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
-import { getEquipment } from "../../services/exerciseService";
+import { getTarget } from "../../services/exerciseService";
 import "./exerciseTargetMuscle.scss";
+import { Swiper, SwiperSlide } from "swiper/vue";
+
+import "swiper/css";
+import "swiper/css/navigation"; // Импортируем стили для навигации
+import "swiper/css/pagination"; // Импортируем стили для пагинации
 
 export default {
   name: "ExerciseTargetMuscle",
-
+  components: {
+    Swiper,
+    SwiperSlide,
+  },
   props: {
     exercise: {
       type: Object,
@@ -37,16 +51,16 @@ export default {
   },
 
   setup(props) {
-    const equipmentData = ref([]);
+    const targetData = ref([]);
     const route = useRoute();
 
-    const fetchEquipment = async (equipmentType) => {
-      if (equipmentType) {
+    const fetchTarget = async (targetType) => {
+      if (targetType) {
         try {
-          equipmentData.value = await getEquipment(equipmentType);
-          console.log("Fetched equipment data:", equipmentData.value);
+          targetData.value = await getTarget(targetType);
+          console.log(targetData.value); // Исправлено для отображения значения
         } catch (error) {
-          console.error("Error fetching equipment:", error);
+          console.error("Error fetching target data:", error);
         }
       }
     };
@@ -54,21 +68,28 @@ export default {
     watch(
       () => props.exercise,
       (newExercise) => {
-        if (newExercise && newExercise.equipment) {
-          fetchEquipment(newExercise.equipment);
+        if (newExercise && newExercise.target) {
+          fetchTarget(newExercise.target);
         } else {
-          console.warn("Equipment type is not defined.");
+          console.warn("Target type is not defined.");
         }
       },
       { immediate: true }
     );
 
+    watch(
+      () => route.params.id,
+      async (newId) => {
+        if (props.exercise && props.exercise.target) {
+          await fetchTarget(props.exercise.target);
+        }
+      }
+    );
+
     return {
-      equipmentData,
+      targetData,
       exercise: props.exercise,
     };
   },
 };
 </script>
-
-<style lang="scss"></style>

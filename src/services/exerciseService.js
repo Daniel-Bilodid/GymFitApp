@@ -14,11 +14,17 @@ const instance = axios.create({
 const cacheData = (key, data) => {
   localStorage.setItem(key, JSON.stringify({ data, timestamp: Date.now() }));
 };
-
-const getCachedData = (key, maxAge = 3 * 24 * 60 * 60 * 1000) => {
+const getCachedData = (key, maxAge = 0) => {
   const cached = JSON.parse(localStorage.getItem(key));
-  if (cached && Date.now() - cached.timestamp < maxAge) {
-    return cached.data;
+  if (cached) {
+    console.log(`Cached data found for key "${key}":`, cached);
+    if (Date.now() - cached.timestamp < maxAge) {
+      return cached.data;
+    } else {
+      console.log(
+        `Cached data for key "${key}" is stale and will not be used.`
+      );
+    }
   }
   return null;
 };

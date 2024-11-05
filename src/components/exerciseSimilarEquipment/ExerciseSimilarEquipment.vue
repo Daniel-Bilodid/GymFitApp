@@ -1,15 +1,30 @@
 <template>
-  <div class="target">
-    {{ targetData }}
+  <div class="equipment">
+    <div class="equipment__title">
+      <span>Similar Equipment</span>
+      {{ exercise ? exercise.equipment : "" }}
+    </div>
+
+    <ul class="equipment__list">
+      <li
+        v-for="(item, index) in equipmentData.slice(0, 9)"
+        :key="index"
+        class="equipment__list-item"
+      >
+        <router-link :to="`/exercise/${item.id}`">
+          <img v-if="item.gifUrl" :src="item.gifUrl" alt="img" />
+          <div class="title__name">{{ item.name }}</div>
+        </router-link>
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
 import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
-import { getTarget } from "../../services/exerciseService";
+import { getEquipment } from "../../services/exerciseService";
 import "./exerciseSimilarEquipment.scss";
-
 export default {
   name: "ExerciseSimilarEquipment",
 
@@ -21,16 +36,16 @@ export default {
   },
 
   setup(props) {
-    const targetData = ref([]);
+    const equipmentData = ref([]);
     const route = useRoute();
 
-    const fetchTarget = async (targetType) => {
-      if (targetType) {
+    const fetchEquipment = async (equipmentType) => {
+      if (equipmentType) {
         try {
-          targetData.value = await getTarget(targetType);
-          console.log(targetData);
+          equipmentData.value = await getEquipment(equipmentType);
+          console.log("Fetched equipment data:", equipmentData.value);
         } catch (error) {
-          console.error("Error fetching target data:", error);
+          console.error("Error fetching equipment:", error);
         }
       }
     };
@@ -38,28 +53,21 @@ export default {
     watch(
       () => props.exercise,
       (newExercise) => {
-        if (newExercise && newExercise.target) {
-          fetchTarget(newExercise.target);
+        if (newExercise && newExercise.equipment) {
+          fetchEquipment(newExercise.equipment);
         } else {
-          console.warn("Target type is not defined.");
+          console.warn("Equipment type is not defined.");
         }
       },
       { immediate: true }
     );
 
-    watch(
-      () => route.params.id,
-      async (newId) => {
-        if (props.exercise && props.exercise.target) {
-          await fetchTarget(props.exercise.target);
-        }
-      }
-    );
-
     return {
-      targetData,
+      equipmentData,
       exercise: props.exercise,
     };
   },
 };
 </script>
+
+<style lang="scss"></style>
