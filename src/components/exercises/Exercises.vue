@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ console.log(exercises) }}
     <exerciseHero />
     <exerciseSearch />
     <exercisesParts @update:bodyPart="onBodyPart" />

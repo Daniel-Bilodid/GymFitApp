@@ -5,6 +5,8 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
+  signOut,
+  onAuthStateChanged,
 } from "firebase/auth";
 
 const firebaseConfig = {
@@ -65,6 +67,15 @@ const loginWithGoogle = async () => {
     console.log("User logged in with Google:", result.user);
   } catch (error) {
     console.error("Error during Google login:", error);
+  }
+};
+
+export const logout = async () => {
+  try {
+    await signOut(auth);
+    console.log("User logged out.");
+  } catch (error) {
+    console.error("Error logging out:", error);
   }
 };
 

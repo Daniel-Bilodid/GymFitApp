@@ -15,11 +15,18 @@
       <swiper-slide
         v-for="(item, index) in targetData.slice(0, 9)"
         :key="index"
-        class="target__list-item"
+        class="target__list-card"
       >
         <router-link :to="`/exercise/${item.id}`">
           <img v-if="item.gifUrl" :src="item.gifUrl" alt="img" />
-          <div class="title__name">{{ item.name }}</div>
+          <button class="target__list-bodypart">
+            {{ item.target }}
+          </button>
+          <div class="target__list-name">
+            {{
+              item.name.length > 25 ? item.name.slice(0, 32) + "..." : item.name
+            }}
+          </div>
         </router-link>
       </swiper-slide>
     </swiper>

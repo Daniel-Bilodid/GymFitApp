@@ -18,19 +18,32 @@
       </li>
 
       <li v-else>
-        <a href="#">Logout</a>
+        <a href="#" @click="handleLogout">Logout</a>
       </li>
     </ul>
   </nav>
 </template>
 
 <script>
+import { ref } from "vue";
+import { logout } from "../../firebase"; // Импортируем функцию логаута
 import "./nav.scss";
 export default {
   name: "Navbar",
   props: {
     currentUser: Object,
   },
-  setup(props) {},
+  setup(props) {
+    const handleLogout = async () => {
+      console.log("Logging out...");
+      await logout();
+      // После успешного выхода, вызываем событие logout, чтобы родительский компонент обновил currentUser
+      props.$emit("logout");
+    };
+
+    return {
+      handleLogout,
+    };
+  },
 };
 </script>
