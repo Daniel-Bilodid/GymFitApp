@@ -5,18 +5,31 @@
       {{ exercise ? exercise.equipment : "" }}
     </div>
 
-    <ul class="equipment__list">
-      <li
+    <swiper
+      class="equipment__list"
+      :navigation="true"
+      :pagination="true"
+      :slides-per-view="3"
+      :space-between="50"
+    >
+      <swiper-slide
         v-for="(item, index) in equipmentData.slice(0, 9)"
         :key="index"
-        class="equipment__list-item"
+        class="equipment__list-card"
       >
         <router-link :to="`/exercise/${item.id}`">
           <img v-if="item.gifUrl" :src="item.gifUrl" alt="img" />
-          <div class="title__name">{{ item.name }}</div>
+          <button class="equipment__list-bodypart">
+            {{ item.target }}
+          </button>
+          <div class="equipment__list-name">
+            {{
+              item.name.length > 25 ? item.name.slice(0, 32) + "..." : item.name
+            }}
+          </div>
         </router-link>
-      </li>
-    </ul>
+      </swiper-slide>
+    </swiper>
   </div>
 </template>
 
@@ -24,10 +37,14 @@
 import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { getEquipment } from "../../services/exerciseService";
+import { Swiper, SwiperSlide } from "swiper/vue";
 import "./exerciseSimilarEquipment.scss";
 export default {
   name: "ExerciseSimilarEquipment",
-
+  components: {
+    Swiper,
+    SwiperSlide,
+  },
   props: {
     exercise: {
       type: Object,

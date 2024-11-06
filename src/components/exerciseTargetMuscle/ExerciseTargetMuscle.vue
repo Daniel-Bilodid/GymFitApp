@@ -33,10 +33,6 @@ import { getTarget } from "../../services/exerciseService";
 import "./exerciseTargetMuscle.scss";
 import { Swiper, SwiperSlide } from "swiper/vue";
 
-import "swiper/css";
-import "swiper/css/navigation"; // Импортируем стили для навигации
-import "swiper/css/pagination"; // Импортируем стили для пагинации
-
 export default {
   name: "ExerciseTargetMuscle",
   components: {
@@ -58,7 +54,7 @@ export default {
       if (targetType) {
         try {
           targetData.value = await getTarget(targetType);
-          console.log(targetData.value); // Исправлено для отображения значения
+          console.log(targetData.value);
         } catch (error) {
           console.error("Error fetching target data:", error);
         }

@@ -24,3 +24,58 @@
     font-weight: 700;
   }
 }
+.exercises__list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+
+  &-name {
+    margin: 0;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+
+    line-height: 1.5;
+    letter-spacing: 0.00938em;
+
+    color: black;
+    font-weight: 700;
+    margin-top: 11px;
+    padding-bottom: 10px;
+    text-transform: capitalize;
+    font-size: 21px;
+    text-decoration: none;
+  }
+  &-link {
+    text-decoration: none;
+  }
+
+  &-bodypart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background-color: rgb(250, 165, 166);
+    width: 64px;
+    height: 36.5px;
+    padding: 6px 8px;
+    font-size: 14px;
+    border-radius: 20px;
+    text-transform: capitalize;
+  }
+  &-card {
+    width: 400px;
+    height: 445px;
+    background: #fff;
+    border-top: 4px solid #ff2625;
+    border-bottom-left-radius: 20px;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 10px;
+    transform: scale(1, 1);
+    transition: 0.3s all ease-in-out;
+    margin-bottom: 20px;
+  }
+}
