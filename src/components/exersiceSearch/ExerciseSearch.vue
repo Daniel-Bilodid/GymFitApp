@@ -16,7 +16,9 @@
 
 <script>
 import "./exerciseSearch.scss";
-
+import { ref, watch } from "vue";
+import { useRoute } from "vue-router";
+import { getExerciseByName } from "../../services/exerciseService";
 export default {
   name: "ExerciseSearch",
   setup() {
@@ -28,7 +30,8 @@ export default {
   },
   methods: {
     onInputChange(value) {
-      this.inputExercise.value = value;
+      console.log(value);
+      getExerciseByName(value);
     },
   },
 };

@@ -194,7 +194,8 @@ export const getTarget = async (target) => {
 export const getExerciseByName = async (name) => {
   const cacheKey = `name:${name}`;
   const cachedData = getCachedData(cacheKey);
-  if (cacheData) {
+
+  if (cachedData) {
     console.log(`Getting exercise name "${name}" from cache.`);
     return cachedData;
   }
@@ -207,7 +208,9 @@ export const getExerciseByName = async (name) => {
         _: Date.now(),
       },
     });
+
     cacheData(cacheKey, response.data);
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching exercise name:", error);
