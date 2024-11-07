@@ -190,3 +190,27 @@ export const getTarget = async (target) => {
     return [];
   }
 };
+
+export const getExerciseByName = async (name) => {
+  const cacheKey = `name:${name}`;
+  const cachedData = getCachedData(cacheKey);
+  if (cacheData) {
+    console.log(`Getting exercise name "${name}" from cache.`);
+    return cachedData;
+  }
+
+  console.log(`Fetching exercise name "${name}" from API.`);
+
+  try {
+    const response = await instance.get(`/exercises/name/${name}`, {
+      params: {
+        _: Date.now(),
+      },
+    });
+    cacheData(cacheKey, response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching exercise name:", error);
+    return [];
+  }
+};
