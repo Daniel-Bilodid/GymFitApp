@@ -1,7 +1,6 @@
 <template>
   <div class="search">
     <div class="search__title">Awesome Exercises You Should Know</div>
-
     <div class="search__wrapper">
       <input
         type="text"
@@ -16,23 +15,28 @@
 
 <script>
 import "./exerciseSearch.scss";
-import { ref, watch } from "vue";
-import { useRoute } from "vue-router";
+import { ref } from "vue";
 import { getExerciseByName } from "../../services/exerciseService";
+
 export default {
   name: "ExerciseSearch",
-  setup() {
+  emits: ["update:exerciseData"],
+  setup(_, { emit }) {
     const inputExercise = ref("");
+    const exerciseData = ref(null);
+
+    const onInputChange = async (value) => {
+      console.log(value);
+      const result = await getExerciseByName(value);
+      exerciseData.value = result;
+      emit("update:exerciseData", result);
+    };
 
     return {
       inputExercise,
+      exerciseData,
+      onInputChange,
     };
-  },
-  methods: {
-    onInputChange(value) {
-      console.log(value);
-      getExerciseByName(value);
-    },
   },
 };
 </script>

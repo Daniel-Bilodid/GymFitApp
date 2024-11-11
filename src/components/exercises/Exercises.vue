@@ -1,34 +1,65 @@
 <template>
   <div>
     <exerciseHero />
-    <exerciseSearch />
+    <exerciseSearch @update:exerciseData="handleExerciseData" />
     <exercisesParts @update:bodyPart="onBodyPart" />
     <h1>Exercise for {{ bodyPart }}</h1>
-    <ul class="exercises__list">
-      <li
-        class="exercises__list-card"
-        v-for="exercise in exercises"
-        :key="exercise.id"
-      >
-        <router-link
-          class="exercises__list-link"
-          :to="`/exercise/${exercise.id}`"
+
+    <div v-if="searchResults && searchResults.length > 0">
+      <h2>Результаты поиска:</h2>
+
+      <ul class="exercises__list">
+        <li
+          class="exercises__list-card"
+          v-for="(exercise, index) in searchResults"
+          :key="index"
         >
-          <img :src="exercise.gifUrl" :alt="exercise.name" />
-          <button class="exercises__list-bodypart">
-            {{ exercise.bodyPart }}
-          </button>
-          <p class="exercises__list-name">
-            {{
-              exercise.name.length > 25
-                ? exercise.name.slice(0, 32) + "..."
-                : exercise.name
-            }}
-          </p>
-          <!-- <p class="exercises__instructions">{{ exercise.instructions }}</p> -->
-        </router-link>
-      </li>
-    </ul>
+          <router-link
+            class="exercises__list-link"
+            :to="`/exercise/${exercise.id}`"
+          >
+            <img :src="exercise.gifUrl" :alt="exercise.name" />
+            <button class="exercises__list-bodypart">
+              {{ exercise.bodyPart }}
+            </button>
+            <p class="exercises__list-name">
+              {{
+                exercise.name.length > 25
+                  ? exercise.name.slice(0, 32) + "..."
+                  : exercise.name
+              }}
+            </p>
+          </router-link>
+        </li>
+      </ul>
+    </div>
+    <div v-else>
+      <ul class="exercises__list">
+        <li
+          class="exercises__list-card"
+          v-for="exercise in exercises"
+          :key="exercise.id"
+        >
+          <router-link
+            class="exercises__list-link"
+            :to="`/exercise/${exercise.id}`"
+          >
+            <img :src="exercise.gifUrl" :alt="exercise.name" />
+            <button class="exercises__list-bodypart">
+              {{ exercise.bodyPart }}
+            </button>
+            <p class="exercises__list-name">
+              {{
+                exercise.name.length > 25
+                  ? exercise.name.slice(0, 32) + "..."
+                  : exercise.name
+              }}
+            </p>
+          </router-link>
+        </li>
+      </ul>
+    </div>
+
     <div class="pagination">
       <button @click="prevPage" :disabled="currentPage === 1">Назад</button>
       <span>Страница {{ currentPage }}</span>
@@ -61,6 +92,16 @@ export default {
     const exercises = ref([]);
     const currentPage = ref(1);
     const limit = ref(20);
+    const searchResults = ref(null);
+
+    const handleExerciseData = (data) => {
+      searchResults.value = data;
+      console.log("Полученные данные из поиска:", searchResults.value);
+
+      searchResults.value.forEach((item) => {
+        console.log(item);
+      });
+    };
 
     const fetchExercises = async () => {
       const offset = (currentPage.value - 1) * limit.value;
@@ -100,6 +141,8 @@ export default {
       nextPage,
       prevPage,
       onBodyPart,
+      handleExerciseData,
+      searchResults,
     };
   },
 };
