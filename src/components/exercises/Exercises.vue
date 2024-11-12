@@ -1,12 +1,14 @@
 <template>
   <div>
     <exerciseHero />
-    <exerciseSearch @update:exerciseData="handleExerciseData" />
+    <exerciseSearch
+      @update:exerciseData="handleExerciseData"
+      @update:offset="offset"
+    />
     <exercisesParts @update:bodyPart="onBodyPart" />
-    <h1>Exercise for {{ bodyPart }}</h1>
 
     <div v-if="searchResults && searchResults.length > 0">
-      <h2>Результаты поиска:</h2>
+      <h2>Search results:</h2>
 
       <ul class="exercises__list">
         <li
@@ -34,6 +36,7 @@
       </ul>
     </div>
     <div v-else>
+      <h1>Exercise for {{ bodyPart }}</h1>
       <ul class="exercises__list">
         <li
           class="exercises__list-card"
@@ -102,9 +105,8 @@ export default {
         console.log(item);
       });
     };
-
+    const offset = (currentPage.value - 1) * limit.value;
     const fetchExercises = async () => {
-      const offset = (currentPage.value - 1) * limit.value;
       if (bodyPart.value !== "all") {
         exercises.value = await getExercisesByBodyPart(
           bodyPart.value,
@@ -143,6 +145,7 @@ export default {
       onBodyPart,
       handleExerciseData,
       searchResults,
+      offset,
     };
   },
 };

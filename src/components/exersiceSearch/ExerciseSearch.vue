@@ -8,7 +8,7 @@
         placeholder="Search Exercise"
         @change="onInputChange($event.target.value)"
       />
-      <button class="search__btn">Search</button>
+      <button class="search__btn" @click="searchExercises">Search</button>
     </div>
   </div>
 </template>
@@ -20,22 +20,29 @@ import { getExerciseByName } from "../../services/exerciseService";
 
 export default {
   name: "ExerciseSearch",
-  emits: ["update:exerciseData"],
+  emits: ["update:exerciseData", "update:offset"],
   setup(_, { emit }) {
     const inputExercise = ref("");
     const exerciseData = ref(null);
+    const offset = ref(0);
 
-    const onInputChange = async (value) => {
-      console.log(value);
-      const result = await getExerciseByName(value);
+    const onInputChange = (value) => {
+      inputExercise.value = value;
+    };
+
+    const searchExercises = async () => {
+      console.log("Поиск с использованием offset:", offset.value);
+      const result = await getExerciseByName(inputExercise.value);
       exerciseData.value = result;
       emit("update:exerciseData", result);
+      emit("update:offset", offset.value);
     };
 
     return {
       inputExercise,
       exerciseData,
       onInputChange,
+      searchExercises,
     };
   },
 };

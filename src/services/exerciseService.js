@@ -191,8 +191,8 @@ export const getTarget = async (target) => {
   }
 };
 
-export const getExerciseByName = async (name) => {
-  const cacheKey = `name:${name}`;
+export const getExerciseByName = async (name, offset = 0, limit = 20) => {
+  const cacheKey = `name:${name}:${offset}:${limit}`;
   const cachedData = getCachedData(cacheKey);
 
   if (cachedData) {
@@ -205,6 +205,8 @@ export const getExerciseByName = async (name) => {
   try {
     const response = await instance.get(`/exercises/name/${name}`, {
       params: {
+        offset,
+        limit,
         _: Date.now(),
       },
     });
